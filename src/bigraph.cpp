@@ -1,6 +1,10 @@
 #include "bigraph.h"
 
 void BiGraph::set_edge(id_type n1, id_type n2, uint w){
+  if (n1 == n2){
+    exit(EXIT_FAILURE);
+  }
+
   hash_n1_[n1].insert(n2);
   hash_n2_[n2].insert(n1);
   raw_weight_[key(n1, n2)] += w;
