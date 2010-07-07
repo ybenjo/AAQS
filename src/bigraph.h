@@ -17,32 +17,36 @@
 using namespace std;
 using namespace std::tr1;
 typedef unsigned int uint;
-typedef pair<uint, uint> key;
-typedef set<uint> list;
+typedef string id_type;
+typedef pair<id_type, id_type> key;
+typedef set<id_type> list;
 typedef map<key, double> d_hash;
-typedef unordered_map<uint, list> each_node_hash;
+typedef unordered_map<id_type, list> each_node_hash;
 
 class BiGraph{
 public:
   BiGraph(){};
-  
+
   BiGraph(double v1, double v2){
-    v_1 = v1;
-    v_2 = v2;
+    v_1_ = v1;
+    v_2_ = v2;
   };
   
-  void set_edge(uint n1, uint n2, uint w);
+  void set_edge(id_type n1, id_type n2, uint w);
   void set_weight();
-  uint get_adj_size(uint node);
+  void _set_weight(each_node_hash h);
+  uint get_raw_weight(id_type n1, id_type n2);
+  double get_weight(id_type n1, id_type n2);
+  uint get_adj_size(id_type node);
 protected:
-  each_node_hash hash_n1;
-  each_node_hash hash_n2;
-  map<key, uint> raw_weight;
-  map<key, double> weight;
-  d_hash score_1;
-  d_hash score_2;
-  double v_1;
-  double v_2;
+  each_node_hash hash_n1_;
+  each_node_hash hash_n2_;
+  map<key, uint> raw_weight_;
+  map<key, double> weight_;
+  d_hash score_1_;
+  d_hash score_2_;
+  double v_1_;
+  double v_2_;
 };
 
 #endif //__class__BiGraph__
