@@ -99,27 +99,20 @@ double BiGraph::calc_validation(const id_type i){
   return sum;
 }
 
-void BiGraph::propagete(){
-  each_node_hash::iterator u;
-  for(u = nodes_u_.begin();u != nodes_u_.end();++u){
-    id_type node_u = u->first;
-    list list_v = u->second;
-    score_u_[node_u] = (1 - lambda_u_) * _init_score_u_[node_u];
-    for(list::iterator v = list_v.begin();v != list_v.end();++v){
-      id_type node_v = *v;
-      score_u_[node_u] += lambda_u_ * score_v_[node_v] * weight_[key(node_v, node_u)];
-    }
-  }
-
-  each_node_hash::iterator v;
-  for(v = nodes_v_.begin();v != nodes_u_.end();++v){
-    id_type node_v = v->first;
-    list list_u = v->second;
-    score_v_[node_v] = (1 - lambda_v_) * _init_score_v_[node_v];
-    for(list::iterator u = list_u.begin();u != list_u.end();++u){
-      id_type node_u = *u;
-      score_v_[node_v] += lambda_v_ * score_u_[node_u] * weight_[key(node_u, node_v)];
+void BiGraph::_propagate(const each_node_hash nodes, d_hash init_score, d_hash &score_1, d_hash &score_2){
+  each_node_hash::const_iterator n;
+  for(n = nodes.begin();n != nodes.end();++n){
+    id_type node_n = n->first;
+    list list_m = n->second;
+    score_1[node_n] = (1 - lambda_u_) * init_score[node_n];
+    for(list::iterator m = list_m.begin();m != list_m.end();++m){
+      id_type node_m = *m;
+      score_1[node_n] += lambda_u_ * score_2[node_m] * weight_[key(node_m, node_n)];
     }
   }
 }
 
+void BiGraph::propagete(){
+  _propagate(nodes_u_, _init_score_u_, score_u_, score_v_);
+  _propagate(nodes_v_, _init_score_v_, score_v_, score_u_);
+}

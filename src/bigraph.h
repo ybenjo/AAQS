@@ -43,6 +43,7 @@ public:
   double get_score_u(const id_type n_u);
   double get_score_v(const id_type n_v);
   double calc_validation(const id_type i);
+  void _propagate(const each_node_hash nodes_1, d_hash init_score, d_hash &score_1, d_hash &score_2);
   void propagete();
 protected:
   void _set_weight(const each_node_hash h);
