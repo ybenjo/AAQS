@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 #include "../bigraph.h"
 
-TEST(bigraph, Check_exit_falure){
-  BiGraph g;
-  g.set_edge(1, 1, 100);
-}
+// TEST(bigraph, Check_exit_failure){
+//   BiGraph g;
+//   g.set_edge(1, 1, 100);
+// }
 
 TEST(bigraph, Check_get_adj_size_exist){
   BiGraph g;
@@ -59,39 +59,63 @@ TEST(bigraph, Check_set_weight_1){
   EXPECT_EQ(0.5, g.get_weight(1, 3));
   EXPECT_EQ(1, g.get_weight(2, 1));
   EXPECT_EQ(1, g.get_weight(3, 1));
-
 }
 
-TEST(bigraph, Check_set_weight_2){
+class TestBiGraph : public ::testing::Test{
+protected:
+  void SetUp()
+  { 
+    std::cout << "TestBiGraph::SetUp" << std::endl;
+    g.set_edge(1, 2, 2);
+    g.set_edge(1, 3, 3);
+    g.set_edge(1, 4, 4);
+    g.set_weight();
+  }
+  void TearDown()
+  { 
+    std::cout << "TestBiGraph::TearDown" << std::endl;
+  }
   BiGraph g;
-  g.set_edge(1, 2, 2);
-  g.set_edge(1, 3, 3);
-  g.set_edge(1, 4, 4);
-  g.set_weight();
-  EXPECT_DOUBLE_EQ(2.0/9, g.get_weight(1, 2));
-  EXPECT_DOUBLE_EQ(3.0/9, g.get_weight(1, 3));
-  EXPECT_DOUBLE_EQ(4.0/9, g.get_weight(1, 4));
+};
+
+TEST_F(TestBiGraph, Check_set_weight_2){
+  EXPECT_DOUBLE_EQ(2/9.0, g.get_weight(1, 2));
+  EXPECT_DOUBLE_EQ(3/9.0, g.get_weight(1, 3));
+  EXPECT_DOUBLE_EQ(4/9.0, g.get_weight(1, 4));
   EXPECT_DOUBLE_EQ(1, g.get_weight(2, 1));
   EXPECT_DOUBLE_EQ(1, g.get_weight(3, 1));
   EXPECT_DOUBLE_EQ(1, g.get_weight(4, 1));
 }
 
-
-TEST(bigraph, Check_set_weight_3){
-  BiGraph g;
-  g.set_edge(1, 2, 2);
-  g.set_edge(1, 3, 3);
-  g.set_edge(1, 4, 4);
-  g.set_weight();
-  EXPECT_DOUBLE_EQ(2.0/9, g.get_weight(1, 2));
-  EXPECT_DOUBLE_EQ(3.0/9, g.get_weight(1, 3));
-  EXPECT_DOUBLE_EQ(4.0/9, g.get_weight(1, 4));
-  EXPECT_DOUBLE_EQ(1, g.get_weight(2, 1));
-  EXPECT_DOUBLE_EQ(1, g.get_weight(3, 1));
-  EXPECT_DOUBLE_EQ(1, g.get_weight(4, 1));
+TEST_F(TestBiGraph, Check_set_init_score){
+  g.set_init_score();
+  EXPECT_DOUBLE_EQ(1, g.get_score_u(1));
+  EXPECT_DOUBLE_EQ(1.0/3, g.get_score_v(2));
+  EXPECT_DOUBLE_EQ(1.0/3, g.get_score_v(3));
+  EXPECT_DOUBLE_EQ(1.0/3, g.get_score_v(4));
 }
 
+TEST_F(TestBiGraph, Check_score_validation){
+  g.set_init_score();
+  EXPECT_DOUBLE_EQ(1.0, g.calc_validation(1));
+  EXPECT_DOUBLE_EQ(1.0, g.calc_validation(2));
+  EXPECT_DOUBLE_EQ(1.0, g.calc_validation(3));
+  EXPECT_DOUBLE_EQ(1.0, g.calc_validation(4));
+}
 
+TEST_F(TestBiGraph, Check_score_propagation_1step){
+  g.set_init_score();
+  g.set_parameter(0.5, 0.5);
+  g.propagete();
+  double v2 = g.get_score_v(2);
+  double v3 = g.get_score_v(3);
+  double v4 = g.get_score_v(4);
+  EXPECT_DOUBLE_EQ(1, g.get_score_u(1));
+  EXPECT_DOUBLE_EQ(5/18.0, v2);
+  EXPECT_DOUBLE_EQ(1/3.0, v3);
+  EXPECT_DOUBLE_EQ(7/18.0, v4);
+  EXPECT_DOUBLE_EQ(1.0, v2 + v3 + v4);
+}
 
 int main(int argc, char **argv){
   testing::InitGoogleTest(&argc, argv);
