@@ -1,7 +1,7 @@
 # Makefile
 
 test: bigraph.o
-	g++ -O3 -lgtest -lpthread ./src/tests/tests.cpp bigraph.o -o test
+	g++ -O3 -lgtest -lpthread ./src/tests/test.cpp bigraph.o -o test
 
 main: bigraph.o
 	g++ -O3 ./src/main.cpp bigraph.o -o main
