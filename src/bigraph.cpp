@@ -1,5 +1,4 @@
 #include "bigraph.h"
-
 void BiGraph::set_edge(const id_type& n_u, const id_type& n_v, const uint& w){
   if (n_u == n_v){
     exit(EXIT_FAILURE);
@@ -10,7 +9,7 @@ void BiGraph::set_edge(const id_type& n_u, const id_type& n_v, const uint& w){
   raw_weight_[key(n_u, n_v)] += w;
 }
 
-void BiGraph::_set_weight(const each_node_hash& h){
+void BiGraph::_set_prob(const each_node_hash& h){
   each_node_hash::const_iterator e;
   for(e = h.begin();e != h.end();++e){
     id_type n = e->first;
@@ -21,14 +20,14 @@ void BiGraph::_set_weight(const each_node_hash& h){
     }
 
     for(list::iterator i = node_list.begin();i != node_list.end();++i){
-      weight_[key(n, *i)] = get_raw_weight(n, *i) / sum;
+      prob_[key(n, *i)] = get_raw_weight(n, *i) / sum;
     }
   }
 }
 
-void BiGraph::set_weight(){
-  _set_weight(nodes_u_);
-  _set_weight(nodes_v_);
+void BiGraph::set_prob(){
+  _set_prob(nodes_u_);
+  _set_prob(nodes_v_);
 }
 
 void BiGraph::set_parameter(const double& u, const double& v){
@@ -41,8 +40,8 @@ uint BiGraph::get_raw_weight(const id_type& n_u, const id_type& n_v){
   return w == 0 ? raw_weight_[key(n_v, n_u)] : w;
 }
 
-double BiGraph::get_weight(const id_type& n_u, const id_type& n_v){
-  return weight_[key(n_u, n_v)];
+double BiGraph::get_prob(const id_type& n_u, const id_type& n_v){
+  return prob_[key(n_u, n_v)];
 }
 
 uint BiGraph::get_adj_size(const id_type& node){
@@ -50,6 +49,7 @@ uint BiGraph::get_adj_size(const id_type& node){
   uint s_v = nodes_v_[node].size();
   return s_u > s_v ? s_u : s_v;
 }
+
 
 void BiGraph::_set_init_score(const each_node_hash& nodes, d_hash& score1, d_hash& score2){
   uint size = nodes.size();
@@ -92,7 +92,7 @@ double BiGraph::calc_validation(const id_type& i){
     id_type node_j = j->first;
     for(k = score2.begin();k != score2.end();++k){
       id_type node_k = k->first;
-      sum += weight_[key(i, node_k)] * weight_[key(node_k, node_j)];
+      sum += prob_[key(i, node_k)] * prob_[key(node_k, node_j)];
     }
   }
   return sum;
@@ -106,7 +106,7 @@ void BiGraph::_propagate(const each_node_hash& nodes, d_hash& init_score, d_hash
     score_1[node_n] = (1 - lambda_u_) * init_score[node_n];
     for(list::iterator m = list_m.begin();m != list_m.end();++m){
       id_type node_m = *m;
-      score_1[node_n] += lambda_u_ * score_2[node_m] * weight_[key(node_m, node_n)];
+      score_1[node_n] += lambda_u_ * score_2[node_m] * get_prob(node_m, node_n);
     }
   }
 }
