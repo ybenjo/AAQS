@@ -1,24 +1,7 @@
 #include <gtest/gtest.h>
 #include "../cohits.h"
 
-class TestCoHITS : public ::testing::Test{
-protected:
-  void SetUp()
-  { 
-    std::cout << "TestCoHITS::SetUp" << std::endl;
-    g.set_edge("1", "2", 2);
-    g.set_edge("1", "3", 3);
-    g.set_edge("1", "4", 4);
-    g.set_prob();
-  }
-  void TearDown()
-  { 
-    std::cout << "TestCoHITS::TearDown" << std::endl;
-  }
-  CoHITS g;
-};
-
-TEST_F(TestCoHITS, Check_set_init_score){
+TEST_F(TestBiGraph, Check_set_init_score){
   g.set_init_score();
   EXPECT_DOUBLE_EQ(1, g.get_score_u("1"));
   EXPECT_DOUBLE_EQ(1/3.0, g.get_score_v("2"));
@@ -26,7 +9,7 @@ TEST_F(TestCoHITS, Check_set_init_score){
   EXPECT_DOUBLE_EQ(1/3.0, g.get_score_v("4"));
 }
 
-TEST_F(TestCoHITS, Check_score_validation){
+TEST_F(TestBiGraph, Check_score_validation){
   g.set_init_score();
   EXPECT_DOUBLE_EQ(1.0, g.calc_validation("1"));
   EXPECT_DOUBLE_EQ(1.0, g.calc_validation("2"));
@@ -34,7 +17,7 @@ TEST_F(TestCoHITS, Check_score_validation){
   EXPECT_DOUBLE_EQ(1.0, g.calc_validation("4"));
 }
 
-TEST_F(TestCoHITS, Check_score_propagation_1step){
+TEST_F(TestBiGraph, Check_score_propagation_1step){
   g.set_init_score();
   g.set_parameter(0.5, 0.5);
   g.propagate();

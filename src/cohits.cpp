@@ -1,6 +1,6 @@
-#include "cohits.h"
+#include "bigraph.h"
 
-void CoHITS::_set_init_score(const each_node_hash& nodes, d_hash& score1, d_hash& score2){
+void BiGraph::_set_init_score(const each_node_hash& nodes, d_hash& score1, d_hash& score2){
   uint size = nodes.size();
   each_node_hash::const_iterator i;
   for(i = nodes.begin();i != nodes.end();++i){
@@ -10,18 +10,18 @@ void CoHITS::_set_init_score(const each_node_hash& nodes, d_hash& score1, d_hash
   }
 }
 
-void CoHITS::set_init_score(){
+void BiGraph::set_init_score(){
   _set_init_score(nodes_u_, _init_score_u_, score_u_);
   _set_init_score(nodes_v_, _init_score_v_, score_v_);
 }
 
-void CoHITS::set_parameter(const double& u, const double& v){
+void BiGraph::set_parameter(const double& u, const double& v){
   lambda_u_ = u;
   lambda_v_ = v;
 }
 
 
-double CoHITS::calc_validation(const id_type& i){
+double BiGraph::calc_validation(const id_type& i){
   double sum = 0.0;
   d_hash score1, score2;
   d_hash::iterator flag = _init_score_u_.find(i);
@@ -45,7 +45,7 @@ double CoHITS::calc_validation(const id_type& i){
   return sum;
 }
 
-void CoHITS::_propagate(const each_node_hash& nodes, d_hash& init_score, d_hash& score_1, d_hash& score_2){
+void BiGraph::_propagate(const each_node_hash& nodes, d_hash& init_score, d_hash& score_1, d_hash& score_2){
   each_node_hash::const_iterator n;
   for(n = nodes.begin();n != nodes.end();++n){
     id_type node_n = n->first;
@@ -58,15 +58,13 @@ void CoHITS::_propagate(const each_node_hash& nodes, d_hash& init_score, d_hash&
   }
 }
 
-void CoHITS::propagate(){
+void BiGraph::propagate(){
   _propagate(nodes_u_, _init_score_u_, score_u_, score_v_);
   _propagate(nodes_v_, _init_score_v_, score_v_, score_u_);
 }
 
-void CoHITS::propagation(const uint& count){
+void BiGraph::propagation(const uint& count){
   for(int i = 0;i < count;++i){
     propagate();
   }
 }
-  
-  

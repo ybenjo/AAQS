@@ -34,6 +34,14 @@ public:
   uint get_adj_size(const id_type& node);
   double get_score_u(const id_type& n_u);
   double get_score_v(const id_type& n_v);
+
+  //CoHITS
+  void set_init_score();
+  void set_parameter(const double& u, const double& v);
+  double calc_validation(const id_type& i);
+  void propagate();
+  void propagation(const uint& count);
+
 protected:
   void _set_prob(const each_node_hash& h);
   each_node_hash nodes_u_;
@@ -44,6 +52,13 @@ protected:
   d_hash _init_score_v_;
   d_hash score_u_;
   d_hash score_v_;
+
+  //CoHITS
+  void _set_init_score(const each_node_hash& nodes, d_hash& score1, d_hash& score2);
+  void _propagate(const each_node_hash& nodes_1, d_hash& init_score, d_hash& score_1, d_hash& score_2);
+  double lambda_u_;
+  double lambda_v_;
+
 };
 
 #endif //__class__BiGraph__
