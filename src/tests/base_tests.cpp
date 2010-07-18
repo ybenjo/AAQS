@@ -1,4 +1,3 @@
-#include <gtest/gtest.h>
 #include "../bigraph.h"
 
 // TEST(bigraph, Check_exit_failure){
@@ -85,4 +84,16 @@ TEST_F(TestBiGraph, Check_set_weight_2){
   EXPECT_DOUBLE_EQ(1, g.get_prob("2", "1"));
   EXPECT_DOUBLE_EQ(1, g.get_prob("3", "1"));
   EXPECT_DOUBLE_EQ(1, g.get_prob("4", "1"));
+}
+
+
+TEST(bigraph, Check_generate_sub_graph){
+  BiGraph g2;
+  g2.set_edge("10", "1", 1);
+  g2.set_edge("10", "2", 1);
+  g2.set_edge("10", "3", 1);
+  g2.set_edge("100", "2", 1);
+  g2.set_edge("100", "4", 1);
+  
+  BiGraph g_sub = g2.generate_sub_graph("100", 1, 1);
 }

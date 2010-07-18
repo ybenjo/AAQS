@@ -1,6 +1,3 @@
-#include <gtest/gtest.h>
-#include "../cohits.h"
-
 TEST_F(TestBiGraph, Check_set_init_score){
   g.set_init_score();
   EXPECT_DOUBLE_EQ(1, g.get_score_u("1"));

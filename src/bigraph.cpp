@@ -6,7 +6,7 @@ void BiGraph::set_edge(const id_type& n_u, const id_type& n_v, const uint& w){
 
   nodes_u_[n_u].insert(n_v);
   nodes_v_[n_v].insert(n_u);
-  raw_weight_[key(n_u, n_v)] += w;
+  raw_weight_[key(n_u, n_v)] = w;
 }
 
 void BiGraph::_set_prob(const each_node_hash& h){
@@ -53,3 +53,61 @@ double BiGraph::get_score_v(const id_type& n_v){
   return score_v_[n_v];
 }
 
+BiGraph BiGraph::generate_sub_graph(const id_type& from, const int& depth, const int& side){
+
+  list next, checked;
+  set<key> sub_list;
+  int lim = depth;
+  if(side == 2){
+    ++lim;
+  }
+  next.insert(from);
+  
+  for(int count = 0;count < lim;++count){
+    if(count % 2 == 0){
+      list tmp;
+      for(list::iterator u = next.begin();u != next.end();++u){
+	if(checked.find(*u) == checked.end()){
+	  list connected = nodes_u_[*u];
+	  for(list::iterator v = connected.begin();v != connected.end();++v){
+	    tmp.insert(*v);
+	    sub_list.insert(key(*u, *v));
+	  }
+	  checked.insert(*u);
+	}
+      }
+
+      next.clear();
+      for(list::iterator t = tmp.begin();t != tmp.end();++t){
+	next.insert(*t);
+      }
+    }else{
+      list tmp;
+      for(list::iterator v = next.begin();v != next.end();++v){
+	if(checked.find(*v) == checked.end()){
+	  list connected = nodes_v_[*v];
+	  for(list::iterator u = connected.begin();u != connected.end();++u){
+	    tmp.insert(*u);
+	    sub_list.insert(key(*u, *v));
+	  }
+	  checked.insert(*v);
+	}
+      }
+      next.clear();
+      for(list::iterator t = tmp.begin();t != tmp.end();++t){
+	next.insert(*t);
+      }
+    }
+  }
+
+  BiGraph sub_graph;
+  set<key>::iterator z;
+  for(z = sub_list.begin();z != sub_list.end();++z){
+    id_type u = z->first;
+    id_type v = z->second;
+    cout << u << "-" << v << endl;
+    sub_graph.set_edge(u, v, get_raw_weight(u, v));
+  }
+  
+  return sub_graph;
+}

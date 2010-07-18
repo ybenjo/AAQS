@@ -35,6 +35,8 @@ public:
   double get_score_u(const id_type& n_u);
   double get_score_v(const id_type& n_v);
 
+  BiGraph generate_sub_graph(const id_type& from, const int& depth, const int& side);
+
   //CoHITS
   void set_init_score();
   void set_parameter(const double& u, const double& v);
