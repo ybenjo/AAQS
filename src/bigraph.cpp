@@ -69,11 +69,17 @@ BiGraph BiGraph::generate_sub_graph(const id_type& from, const int& depth, const
       for(list::iterator u = next.begin();u != next.end();++u){
 	if(checked.find(*u) == checked.end()){
 	  list connected = nodes_u_[*u];
+	  if(connected.size() != 0){
+	    checked.insert(*u);	    
+	  }else{
+	    //*uはv側のノードであるため、checkedにせずにnextに挿入
+	    tmp.insert(*u);
+	  }
 	  for(list::iterator v = connected.begin();v != connected.end();++v){
 	    tmp.insert(*v);
 	    sub_list.insert(key(*u, *v));
 	  }
-	  checked.insert(*u);
+
 	}
       }
 
