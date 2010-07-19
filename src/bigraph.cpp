@@ -55,53 +55,49 @@ double BiGraph::get_score_v(const id_type& n_v){
 
 BiGraph BiGraph::generate_sub_graph(const id_type& from, const int& depth, const int& side){
 
-  list next, checked;
+  list now, next, checked;
   set<key> sub_list;
   int lim = depth;
   if(side == 2){
     ++lim;
   }
-  next.insert(from);
+  now.insert(from);
   
   for(int count = 0;count < lim;++count){
     if(count % 2 == 0){
-      list tmp;
-      for(list::iterator u = next.begin();u != next.end();++u){
+      for(list::iterator u = now.begin();u != now.end();++u){
 	if(checked.find(*u) == checked.end()){
 	  list connected = nodes_u_[*u];
 	  if(connected.size() != 0){
-	    checked.insert(*u);	    
+	    for(list::iterator v = connected.begin();v != connected.end();++v){
+	      sub_list.insert(key(*u, *v));
+	      next.insert(*v);
+	    }
+	    checked.insert(*u);
 	  }else{
-	    //*uはv側のノードであるため、checkedにせずにnextに挿入
-	    tmp.insert(*u);
+	    //開始地点がV側だった場合nextに追加
+	    next.insert(*u);
 	  }
-	  for(list::iterator v = connected.begin();v != connected.end();++v){
-	    tmp.insert(*v);
-	    sub_list.insert(key(*u, *v));
-	  }
-
 	}
       }
-
-      next.clear();
-      for(list::iterator t = tmp.begin();t != tmp.end();++t){
-	next.insert(*t);
+      now.clear();
+      for(list::iterator x = next.begin(); x != next.end(); ++x){
+	now.insert(*x);
       }
     }else{
-      list tmp;
-      for(list::iterator v = next.begin();v != next.end();++v){
+      for(list::iterator v = now.begin();v != now.end();++v){
 	if(checked.find(*v) == checked.end()){
 	  list connected = nodes_v_[*v];
 	  for(list::iterator u = connected.begin();u != connected.end();++u){
-	    tmp.insert(*u);
 	    sub_list.insert(key(*u, *v));
+	    next.insert(*u);
 	  }
 	  checked.insert(*v);
 	}
       }
-      next.clear();
-      for(list::iterator t = tmp.begin();t != tmp.end();++t){
-	next.insert(*t);
+      now.clear();
+      for(list::iterator x = next.begin(); x != next.end(); ++x){
+	now.insert(*x);
       }
     }
   }
