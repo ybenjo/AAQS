@@ -1,6 +1,6 @@
 #include "bigraph.h"
 
-void BiGraph::_set_init_score(const each_node_hash& nodes, d_hash& score1, d_hash& score2){
+void BiGraph::_cohits_set_init_score(const each_node_hash& nodes, d_hash& score1, d_hash& score2){
   uint size = nodes.size();
   each_node_hash::const_iterator i;
   for(i = nodes.begin();i != nodes.end();++i){
@@ -10,18 +10,18 @@ void BiGraph::_set_init_score(const each_node_hash& nodes, d_hash& score1, d_has
   }
 }
 
-void BiGraph::set_init_score(){
-  _set_init_score(nodes_u_, _init_score_u_, score_u_);
-  _set_init_score(nodes_v_, _init_score_v_, score_v_);
+void BiGraph::cohits_set_init_score(){
+  _cohits_set_init_score(nodes_u_, _init_score_u_, score_u_);
+  _cohits_set_init_score(nodes_v_, _init_score_v_, score_v_);
 }
 
-void BiGraph::set_parameter(const double& u, const double& v){
-  lambda_u_ = u;
-  lambda_v_ = v;
+void BiGraph::cohits_set_parameter(const double& u, const double& v){
+  cohits_lambda_u_ = u;
+  cohits_lambda_v_ = v;
 }
 
 
-double BiGraph::calc_validation(const id_type& i){
+double BiGraph::cohits_calc_validation(const id_type& i){
   double sum = 0.0;
   d_hash score1, score2;
   d_hash::iterator flag = _init_score_u_.find(i);
@@ -45,26 +45,61 @@ double BiGraph::calc_validation(const id_type& i){
   return sum;
 }
 
-void BiGraph::_propagate(const each_node_hash& nodes, d_hash& init_score, d_hash& score_1, d_hash& score_2){
+void BiGraph::_cohits_one_propagate(const each_node_hash& nodes, d_hash& init_score, d_hash& score_1, d_hash& score_2, const double& param){
   each_node_hash::const_iterator n;
   for(n = nodes.begin();n != nodes.end();++n){
     id_type node_n = n->first;
     list list_m = n->second;
-    score_1[node_n] = (1 - lambda_u_) * init_score[node_n];
+    score_1[node_n] = (1 - param) * init_score[node_n];
+    double kakko_sum = 0.0;
     for(list::iterator m = list_m.begin();m != list_m.end();++m){
       id_type node_m = *m;
-      score_1[node_n] += lambda_u_ * score_2[node_m] * get_prob(node_m, node_n);
+      kakko_sum += score_2[node_m] * get_prob(node_m, node_n);
     }
+    score_1[node_n] += param * kakko_sum;
   }
 }
 
-void BiGraph::propagate(){
-  _propagate(nodes_u_, _init_score_u_, score_u_, score_v_);
-  _propagate(nodes_v_, _init_score_v_, score_v_, score_u_);
+void BiGraph::cohits_one_propagate(){
+  _cohits_one_propagate(nodes_u_, _init_score_u_, score_u_, score_v_, cohits_lambda_u_);
+  _cohits_one_propagate(nodes_v_, _init_score_v_, score_v_, score_u_, cohits_lambda_v_);
 }
 
-void BiGraph::propagation(const uint& count){
-  for(int i = 0;i < count;++i){
-    propagate();
+void BiGraph::cohits_propagation(const uint& count){
+  for(uint i = 0;i < count;++i){
+    cohits_one_propagate();
   }
+}
+
+void BiGraph::cohits_output(const char *filename, const int& limit){
+  std::ofstream ofs;
+  multimap<double, id_type> output_u;
+  multimap<double, id_type> output_v;
+
+  for(d_hash::iterator i = score_u_.begin();i != score_u_.end();++i){
+    output_u.insert(make_pair(i->second, i->first));
+  }
+
+  for(d_hash::iterator i = score_v_.begin();i != score_v_.end();++i){
+    output_v.insert(make_pair(i->second, i->first));
+  }
+  
+  ofs.open(filename);
+  ofs << "U' score" << endl;
+  multimap<double, id_type>::reverse_iterator i;
+  int count = 1;
+  for(i = output_u.rbegin();i != output_u.rend();++i){
+    if(count > limit) break;
+    ofs << i->second << "," << i->first << endl;
+    ++count;
+  }
+
+  ofs << "V' score" << endl;
+  count = 1;
+  for(i = output_v.rbegin();i != output_v.rend();++i){
+    if(count > limit) break;
+    ofs << i->second << "," << i->first << endl;
+    ++count;
+  }
+  ofs.close();
 }

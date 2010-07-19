@@ -1,8 +1,8 @@
 #include "bigraph.h"
 void BiGraph::set_edge(const id_type& n_u, const id_type& n_v, const uint& w){
-  if (n_u == n_v){
-    exit(EXIT_FAILURE);
-  }
+//   if (n_u == n_v){
+//     exit(EXIT_FAILURE);
+//   }
 
   nodes_u_[n_u].insert(n_v);
   nodes_v_[n_v].insert(n_u);
@@ -53,52 +53,21 @@ double BiGraph::get_score_v(const id_type& n_v){
   return score_v_[n_v];
 }
 
-BiGraph BiGraph::generate_sub_graph(const id_type& from, const int& depth, const int& side){
+BiGraph BiGraph::generate_sub_graph(const id_type& from, const int& depth, const string& side){
 
-  list now, next, checked;
+  list now, checked;
   set<key> sub_list;
   int lim = depth;
-  if(side == 2){
+  if(side == "v"){
     ++lim;
   }
   now.insert(from);
   
   for(int count = 0;count < lim;++count){
     if(count % 2 == 0){
-      for(list::iterator u = now.begin();u != now.end();++u){
-	if(checked.find(*u) == checked.end()){
-	  list connected = nodes_u_[*u];
-	  if(connected.size() != 0){
-	    for(list::iterator v = connected.begin();v != connected.end();++v){
-	      sub_list.insert(key(*u, *v));
-	      next.insert(*v);
-	    }
-	    checked.insert(*u);
-	  }else{
-	    //開始地点がV側だった場合nextに追加
-	    next.insert(*u);
-	  }
-	}
-      }
-      now.clear();
-      for(list::iterator x = next.begin(); x != next.end(); ++x){
-	now.insert(*x);
-      }
+      _one_side_depth_search(now, checked, sub_list, "u");
     }else{
-      for(list::iterator v = now.begin();v != now.end();++v){
-	if(checked.find(*v) == checked.end()){
-	  list connected = nodes_v_[*v];
-	  for(list::iterator u = connected.begin();u != connected.end();++u){
-	    sub_list.insert(key(*u, *v));
-	    next.insert(*u);
-	  }
-	  checked.insert(*v);
-	}
-      }
-      now.clear();
-      for(list::iterator x = next.begin(); x != next.end(); ++x){
-	now.insert(*x);
-      }
+      _one_side_depth_search(now, checked, sub_list, "v");
     }
   }
 
@@ -110,4 +79,71 @@ BiGraph BiGraph::generate_sub_graph(const id_type& from, const int& depth, const
     sub_graph.set_edge(u, v, get_raw_weight(u, v));
   }
   return sub_graph;
+}
+
+
+void BiGraph::_one_side_depth_search(list& now, list& checked, set<key>& sub_list, const string& side){
+  each_node_hash side_hash;
+  list next;
+  
+  if(side == "u"){
+    side_hash = nodes_u_;
+  }else{
+    side_hash = nodes_v_;
+  }
+
+  for(list::iterator x = now.begin();x != now.end();++x){
+    if(checked.find(*x) == checked.end()){
+      list connected = side_hash[*x];
+      if(connected.size() != 0){
+	for(list::iterator y = connected.begin();y != connected.end();++y){
+	  if(side == "u"){
+	    sub_list.insert(key(*x, *y));
+	  }else{
+	    sub_list.insert(key(*y, *x));
+	  }
+	  next.insert(*y);
+	}
+	checked.insert(*x);
+      }else{
+	//開始地点がV側だった場合nextに追加
+	next.insert(*x);
+      }
+    }
+  }
+  now.clear();
+  for(list::iterator x = next.begin(); x != next.end(); ++x){
+    now.insert(*x);
+  }
+}
+
+
+void BiGraph::read_file(const char *filename){
+  ifstream ifs;
+  vector<string> ret;
+  char line[255];
+  ifs.open(filename, ios::in);
+  while(!ifs.eof()){
+    ifs.getline(line,sizeof(line));
+    if(strlen(line) > 1){
+      ret = split(line,",");
+      string u = ret.at(0);
+      string v = ret.at(1);
+      uint w = atoi(ret.at(2).c_str());
+      set_edge(u, v, w);
+    }
+  }
+  ifs.close();
+}
+
+//split
+vector<string> BiGraph::split(string s, string c){
+  vector<string> ret;
+  for(int i=0, n; i <= s.length(); i=n+1){
+    n = s.find_first_of(c, i);
+    if(n == string::npos) n = s.length();
+    string tmp = s.substr(i, n-i);
+    ret.push_back(tmp);
+  }
+  return ret;
 }

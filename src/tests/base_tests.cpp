@@ -106,7 +106,7 @@ protected:
 };
 
 TEST_F(TestSubBiGraph, Check_generate_sub_graph){
-  BiGraph g_sub_1 = g.generate_sub_graph("a", 1, 1);
+  BiGraph g_sub_1 = g.generate_sub_graph("a", 1, "u");
   EXPECT_EQ(3, g_sub_1.get_adj_size("a"));
   EXPECT_EQ(1, g_sub_1.get_adj_size("1"));
   EXPECT_EQ(1, g_sub_1.get_adj_size("2"));
@@ -116,7 +116,7 @@ TEST_F(TestSubBiGraph, Check_generate_sub_graph){
 }
 
 TEST_F(TestSubBiGraph, Check_generate_sub_graph2){
-  BiGraph g_sub_2 = g.generate_sub_graph("a", 10, 1);
+  BiGraph g_sub_2 = g.generate_sub_graph("a", 10, "u");
   EXPECT_EQ(3, g_sub_2.get_adj_size("a"));
   EXPECT_EQ(1, g_sub_2.get_adj_size("1"));
   EXPECT_EQ(2, g_sub_2.get_adj_size("2"));
@@ -126,7 +126,7 @@ TEST_F(TestSubBiGraph, Check_generate_sub_graph2){
 }
 
 TEST_F(TestSubBiGraph, Check_generate_sub_graph3){
-  BiGraph g_sub_3 = g.generate_sub_graph("1", 1, 2);
+  BiGraph g_sub_3 = g.generate_sub_graph("1", 1, "v");
 
   EXPECT_EQ(1, g_sub_3.get_adj_size("a"));
   EXPECT_EQ(1, g_sub_3.get_adj_size("1"));
@@ -137,7 +137,7 @@ TEST_F(TestSubBiGraph, Check_generate_sub_graph3){
 }
 
 TEST_F(TestSubBiGraph, Check_generate_sub_graph4){
-  BiGraph g_sub_4 = g.generate_sub_graph("1", 10, 2);
+  BiGraph g_sub_4 = g.generate_sub_graph("1", 10, "v");
 
   EXPECT_EQ(3, g_sub_4.get_adj_size("a"));
   EXPECT_EQ(1, g_sub_4.get_adj_size("1"));

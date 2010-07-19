@@ -35,17 +35,22 @@ public:
   double get_score_u(const id_type& n_u);
   double get_score_v(const id_type& n_v);
 
-  BiGraph generate_sub_graph(const id_type& from, const int& depth, const int& side);
+  BiGraph generate_sub_graph(const id_type& from, const int& depth, const string& side);
+
+  void read_file(const char *filename);
+  vector<string> split(string s, string c);
 
   //CoHITS
-  void set_init_score();
-  void set_parameter(const double& u, const double& v);
-  double calc_validation(const id_type& i);
-  void propagate();
-  void propagation(const uint& count);
+  void cohits_set_init_score();
+  void cohits_set_parameter(const double& u, const double& v);
+  double cohits_calc_validation(const id_type& i);
+  void cohits_one_propagate();
+  void cohits_propagation(const uint& count);
+  void cohits_output(const char *filename, const int& limit);
 
 protected:
   void _set_prob(const each_node_hash& h);
+  void _one_side_depth_search(list& now, list& checked, set<key>& sub_list, const string& side);
   each_node_hash nodes_u_;
   each_node_hash nodes_v_;
   map<key, uint> raw_weight_;
@@ -56,11 +61,10 @@ protected:
   d_hash score_v_;
 
   //CoHITS
-  void _set_init_score(const each_node_hash& nodes, d_hash& score1, d_hash& score2);
-  void _propagate(const each_node_hash& nodes_1, d_hash& init_score, d_hash& score_1, d_hash& score_2);
-  double lambda_u_;
-  double lambda_v_;
-
+  void _cohits_set_init_score(const each_node_hash& nodes, d_hash& score1, d_hash& score2);
+  void _cohits_one_propagate(const each_node_hash& nodes_1, d_hash& init_score, d_hash& score_1, d_hash& score_2, const double& param);
+  double cohits_lambda_u_;
+  double cohits_lambda_v_;
 };
 
 #endif //__class__BiGraph__
