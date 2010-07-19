@@ -105,9 +105,7 @@ BiGraph BiGraph::generate_sub_graph(const id_type& from, const int& depth, const
   for(z = sub_list.begin();z != sub_list.end();++z){
     id_type u = z->first;
     id_type v = z->second;
-    cout << u << "-" << v << endl;
     sub_graph.set_edge(u, v, get_raw_weight(u, v));
   }
-  
   return sub_graph;
 }
