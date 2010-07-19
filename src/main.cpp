@@ -34,5 +34,6 @@ int main(int argc, char **argv){
     g.cohits_propagation(iteration);
     g.cohits_output(output_filename, limit);
     break;
+  default : break;
   }
 }
