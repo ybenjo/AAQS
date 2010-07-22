@@ -1,0 +1,21 @@
+###
+#用いるアルゴリズムの選択。-mを優先
+#1 -> CoHITS
+#2 -> hitting time
+MODE: 1
+
+###共通パラメータ
+#random walkの繰り返し回数。-tを優先
+ITERATION: 5
+#サブグラフを作る際の深さ。-dを優先
+DEPTH: 4
+#出力する際の件数。-sを優先
+SIZE: 10
+#entropy biased modelに基づいて遷移確率を上書きするか。-eを優先
+ENTROPY: false
+
+###個別パラメータ
+##CoHITS
+#伝播パラメータ。それぞれ-u, -vを優先
+LAMBDA_U: 0.5
+LAMBDA_V: 0.5
