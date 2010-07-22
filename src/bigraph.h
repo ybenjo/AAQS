@@ -51,6 +51,9 @@ public:
   void cohits_output(const char *filename, const int& limit);
 
   //hitting time
+  void set_hitting_prob();
+  double get_hitting_prob(const id_type& from, const id_type& to);
+  double hitting_get_hitting_score(const id_type& query);
   void hitting_one_random_walk(const id_type& query);
   void hitting_random_walk(const id_type& query, const uint& count);
   void hitting_output(const char *filename, const int& limit);
@@ -74,7 +77,8 @@ protected:
   double cohits_lambda_v_;
 
   //hitting time
-  d_hash hitting_score;
+  map<key, double> hitting_prob_;
+  d_hash hitting_score_;
   
 };
 

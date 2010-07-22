@@ -31,13 +31,29 @@ int main(int argc, char **argv){
   g.read_file(input_filename);
   switch(mode){
   case 1:
-    string side = g.get_query_side(query);
-    BiGraph g_sub = g.generate_sub_graph(query, depth, side);
-    g_sub.set_prob();
-    g_sub.cohits_set_init_score();
-    g_sub.cohits_set_parameter(param_u, param_v);
-    g_sub.cohits_propagation(iteration);
-    g_sub.cohits_output(output_filename, size);
-    break;
+    {
+      string side = g.get_query_side(query);
+      BiGraph g_sub = g.generate_sub_graph(query, depth, side);
+      g_sub.set_prob();
+      if(entropy == 1){
+	g_sub.set_entropy();
+      }
+      g_sub.cohits_set_init_score();
+      g_sub.cohits_set_parameter(param_u, param_v);
+      g_sub.cohits_propagation(iteration);
+      g_sub.cohits_output(output_filename, size);
+    }
+  case 2:
+    {
+      string side = g.get_query_side(query);
+      BiGraph g_sub = g.generate_sub_graph(query, depth, side);
+      g_sub.set_prob();
+      if(entropy == 1){
+	g_sub.set_entropy();
+      }
+      g_sub.set_hitting_prob();
+      g_sub.hitting_random_walk(query, iteration);
+      g_sub.hitting_output(output_filename, size);
+    }
   }
 }

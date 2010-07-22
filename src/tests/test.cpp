@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "./base_tests.cpp"
 #include "./cohits_tests.cpp"
+#include "./hitting_time_tests.cpp"
 
 int main(int argc, char **argv){
   testing::InitGoogleTest(&argc, argv);
