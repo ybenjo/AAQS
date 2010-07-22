@@ -111,6 +111,7 @@ BiGraph BiGraph::generate_sub_graph(const id_type& from, const int& depth, const
 
 
 void BiGraph::_one_side_depth_search(list& now, list& checked, set<key>& sub_list, const string& side){
+  
   each_node_hash side_hash;
   list next;
   
@@ -174,4 +175,13 @@ vector<string> BiGraph::split(string s, string c){
     ret.push_back(tmp);
   }
   return ret;
+}
+
+string BiGraph::get_query_side(const id_type& query){
+  string side = "u";
+  each_node_hash::iterator flag = nodes_v_.find(query);
+  if(flag != nodes_v_.end()){
+    side = "v";
+  }
+  return side;
 }

@@ -22,6 +22,7 @@ OptionParser.new {|opt|
 #   opt.on('-e [OPTION]') {|v| option["-e"] = 1 if v == "true"}
   opt.on('-u [OPTION]') {|v| option["-u"] = v.to_f}
   opt.on('-v [OPTION]') {|v| option["-v"] = v.to_f}
+  opt.on('-q [OPTION]') {|v| option["-q"] = v}
   opt.parse!(ARGV)
 }
 

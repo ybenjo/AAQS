@@ -130,7 +130,6 @@ TEST_F(TestSubBiGraph, Check_set_entropy){
   EXPECT_DOUBLE_EQ(0, g.get_prob("b", "3"));
 }
 
-
 TEST_F(TestSubBiGraph, Check_generate_sub_graph){
   BiGraph g_sub_1 = g.generate_sub_graph("a", 1, "u");
   EXPECT_EQ(3, g_sub_1.get_adj_size("a"));
@@ -171,4 +170,11 @@ TEST_F(TestSubBiGraph, Check_generate_sub_graph4){
   EXPECT_EQ(1, g_sub_4.get_adj_size("3"));
   EXPECT_EQ(2, g_sub_4.get_adj_size("b"));
   EXPECT_EQ(1, g_sub_4.get_adj_size("4"));
+}
+
+TEST_F(TestBiGraph, Check_get_query_side){
+  EXPECT_EQ("u", g.get_query_side("1"));
+  EXPECT_EQ("v", g.get_query_side("2"));
+  EXPECT_EQ("v", g.get_query_side("3"));
+  EXPECT_EQ("v", g.get_query_side("4"));
 }

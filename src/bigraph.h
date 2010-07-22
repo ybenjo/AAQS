@@ -35,6 +35,7 @@ public:
   uint get_adj_size(const id_type& node);
   double get_score_u(const id_type& n_u);
   double get_score_v(const id_type& n_v);
+  string get_query_side(const id_type& query);
 
   BiGraph generate_sub_graph(const id_type& from, const int& depth, const string& side);
 
@@ -48,6 +49,11 @@ public:
   void cohits_one_propagate();
   void cohits_propagation(const uint& count);
   void cohits_output(const char *filename, const int& limit);
+
+  //hitting time
+  void hitting_one_random_walk(const id_type& query);
+  void hitting_random_walk(const id_type& query, const uint& count);
+  void hitting_output(const char *filename, const int& limit);
 
 protected:
   void _set_prob(const each_node_hash& h);
@@ -66,6 +72,10 @@ protected:
   void _cohits_one_propagate(const each_node_hash& nodes_1, d_hash& init_score, d_hash& score_1, d_hash& score_2, const double& param);
   double cohits_lambda_u_;
   double cohits_lambda_v_;
+
+  //hitting time
+  d_hash hitting_score;
+  
 };
 
 #endif //__class__BiGraph__

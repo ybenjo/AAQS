@@ -6,9 +6,10 @@ int main(int argc, char **argv){
   char *input_filename, *output_filename;
   int result, iteration, depth, mode, size, entropy;
   double param_u, param_v;
+  string query;
   
   while(1){ 
-    result = getopt(argc, argv, "i:o:m:d:t:u:v:s:e:");
+    result = getopt(argc, argv, "i:o:m:d:t:u:v:s:e:q:");
     if(result == -1) break;
     
     switch(result){
@@ -21,6 +22,7 @@ int main(int argc, char **argv){
     case 'v' : param_v = atof(optarg); break;
     case 's' : size = atoi(optarg); break;
     case 'e' : entropy = atoi(optarg); break;
+    case 'q' : query = string(optarg); break;
     }
     optarg = NULL; 
   }
@@ -29,12 +31,13 @@ int main(int argc, char **argv){
   g.read_file(input_filename);
   switch(mode){
   case 1:
-    g.set_prob();
-    g.cohits_set_init_score();
-    g.cohits_set_parameter(param_u, param_v);
-    g.cohits_propagation(iteration);
-    g.cohits_output(output_filename, size);
+    string side = g.get_query_side(query);
+    BiGraph g_sub = g.generate_sub_graph(query, depth, side);
+    g_sub.set_prob();
+    g_sub.cohits_set_init_score();
+    g_sub.cohits_set_parameter(param_u, param_v);
+    g_sub.cohits_propagation(iteration);
+    g_sub.cohits_output(output_filename, size);
     break;
-  default : break;
   }
 }
