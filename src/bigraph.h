@@ -29,6 +29,7 @@ public:
   BiGraph(){};
   void set_edge(const id_type& n_u, const id_type& n_v, const uint& w);
   void set_prob();
+  void set_entropy();
   uint get_raw_weight(const id_type& n_u, const id_type& n_v);
   double get_prob(const id_type& n_u, const id_type& n_v);
   uint get_adj_size(const id_type& node);

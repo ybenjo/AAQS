@@ -4,11 +4,11 @@
 
 int main(int argc, char **argv){
   char *input_filename, *output_filename;
-  int result, iteration, depth, mode, size;
+  int result, iteration, depth, mode, size, entropy;
   double param_u, param_v;
   
   while(1){ 
-    result = getopt(argc, argv, "i:o:m:d:t:u:v:s:");
+    result = getopt(argc, argv, "i:o:m:d:t:u:v:s:e:");
     if(result == -1) break;
     
     switch(result){
@@ -20,7 +20,7 @@ int main(int argc, char **argv){
     case 'u' : param_u = atof(optarg); break; 
     case 'v' : param_v = atof(optarg); break;
     case 's' : size = atoi(optarg); break;
-    default :;
+    case 'e' : entropy = atoi(optarg); break;
     }
     optarg = NULL; 
   }

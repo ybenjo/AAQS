@@ -48,7 +48,6 @@ TEST(bigraph, Check_get_raw_weight_empty){
   EXPECT_EQ(0, g.get_raw_weight("200", "100"));
 }
 
-
 TEST(bigraph, Check_set_prob_1){
   BiGraph g;
   g.set_edge("1", "2", 1);
@@ -86,6 +85,17 @@ TEST_F(TestBiGraph, Check_set_weight_2){
   EXPECT_DOUBLE_EQ(1, g.get_prob("4", "1"));
 }
 
+TEST_F(TestBiGraph, Check_set_entropy){
+  g.set_entropy();
+  EXPECT_DOUBLE_EQ(0, g.get_prob("1", "2"));
+  EXPECT_DOUBLE_EQ(0, g.get_prob("1", "3"));
+  EXPECT_DOUBLE_EQ(0, g.get_prob("1", "4"));
+  EXPECT_DOUBLE_EQ(1, g.get_prob("2", "1"));
+  EXPECT_DOUBLE_EQ(1, g.get_prob("3", "1"));
+  EXPECT_DOUBLE_EQ(1, g.get_prob("4", "1"));
+}
+
+
 
 class TestSubBiGraph : public ::testing::Test{
 protected:
@@ -104,6 +114,22 @@ protected:
   }
   BiGraph g;
 };
+
+TEST_F(TestSubBiGraph, Check_set_entropy){
+  g.set_prob();
+  g.set_entropy();
+  //conneted
+  EXPECT_DOUBLE_EQ(1/2.0, g.get_prob("a", "1"));
+  EXPECT_DOUBLE_EQ(0, g.get_prob("a", "2"));
+  EXPECT_DOUBLE_EQ(1/2.0, g.get_prob("a", "3"));
+  EXPECT_DOUBLE_EQ(0, g.get_prob("b", "2"));
+  EXPECT_DOUBLE_EQ(1, g.get_prob("b", "4"));
+  //disconnected
+  EXPECT_DOUBLE_EQ(0, g.get_prob("a", "4"));
+  EXPECT_DOUBLE_EQ(0, g.get_prob("b", "1"));
+  EXPECT_DOUBLE_EQ(0, g.get_prob("b", "3"));
+}
+
 
 TEST_F(TestSubBiGraph, Check_generate_sub_graph){
   BiGraph g_sub_1 = g.generate_sub_graph("a", 1, "u");

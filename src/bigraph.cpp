@@ -30,6 +30,34 @@ void BiGraph::set_prob(){
   _set_prob(nodes_v_);
 }
 
+void BiGraph::set_entropy(){
+  each_node_hash::iterator i;
+  d_hash iqf;
+  d_hash cfiqf;
+  for(i = nodes_v_.begin();i != nodes_v_.end();++i){
+    iqf[i->first] = log(nodes_u_.size() / i->second.size());
+  }
+
+  for(i = nodes_u_.begin();i != nodes_u_.end();++i){
+    id_type u = i->first;
+    list adj = i->second;
+    
+    for(list::iterator j = adj.begin();j != adj.end();++j){
+      cfiqf[u] += get_raw_weight(u, *j) * iqf[*j];
+    }
+
+    for(list::iterator j = adj.begin();j != adj.end();++j){
+      if(iqf[*j] == 0){
+	prob_[key(u, *j)] = 0.0;
+      }else{
+	prob_[key(u, *j)] = get_raw_weight(u, *j) * iqf[*j] / cfiqf[u];
+      }
+    }
+  }
+  
+}
+
+
 uint BiGraph::get_raw_weight(const id_type& n_u, const id_type& n_v){
   uint w = raw_weight_[key(n_u, n_v)];
   return w == 0 ? raw_weight_[key(n_v, n_u)] : w;
