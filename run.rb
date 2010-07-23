@@ -27,7 +27,7 @@ OptionParser.new {|opt|
 }
 
 dir, fname = File::split(option["-i"])
-option["-o"] = "#{dir}/#{fname.gsub(/\.txt/,"")}_#{option["-q"]}.txt" if !option.include?("-o")
+option["-o"] = "#{dir}/result_#{fname.gsub(/\.txt/,"")}_#{option["-q"]}.txt" if !option.include?("-o")
 command = "./main #{option.to_a.join(" ")}"
 puts command
 `#{command}`
