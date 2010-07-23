@@ -28,6 +28,7 @@ void BiGraph::set_prob(){
 }
 
 void BiGraph::set_entropy(){
+  cout << "set_entropy" << endl;
   each_node_hash::iterator i;
   d_hash iqf;
   d_hash cfiqf;

@@ -34,10 +34,6 @@ int main(int argc, char **argv){
   case 1:
     {
       string side = g->get_query_side(query);
-      
-      //debug
-      cout << query << ":" << side << endl;
-
       BiGraph g_sub = g->generate_sub_graph(query, depth, side);
       delete g;
       g_sub.set_prob();

@@ -17,7 +17,8 @@
 using namespace std;
 using namespace std::tr1;
 
-typedef unsigned int uint;
+//typedef unsigned int uint;
+typedef unsigned short int uint;
 typedef string id_type;
 typedef pair<id_type, id_type> key;
 typedef set<id_type> list;
