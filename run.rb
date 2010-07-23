@@ -26,9 +26,8 @@ OptionParser.new {|opt|
   opt.parse!(ARGV)
 }
 
-dir = File::dirname(option["-i"])
-option["-o"] = "#{dir}/result_#{option["-i"].gsub(/(\.txt)/,"")}_#{option["-q"]}.txt" if !option.include?("-o")
-
+dir, fname = File::split(option["-i"])
+option["-o"] = "#{dir}/#{fname.gsub(/\.txt/,"")}_#{option["-q"]}.txt" if !option.include?("-o")
 command = "./main #{option.to_a.join(" ")}"
 puts command
 `#{command}`
