@@ -1,5 +1,5 @@
 ***About
-Qeury Suggestion Algorithm implemantation of C++.
+Qeury Suggestion Algorithm implemantation by C++.
 
 Now we can use these algorithms.
 1. Pan J, Yang H, Faloutsos C, Duygulu P. Automatic multimedia cross-modal correlation discovery.
@@ -22,8 +22,8 @@ $make main
 $ruby ./run.rb
 
 ***File format
-example:
-query_1,url_1,10
-query_1,url_2,3
-query_1,url_3,10
+The delimiter is Tab.For example:
+query_1\turl_1\t10
+query_1\turl_2\t3
 ...
+

@@ -1,3 +1,4 @@
+
 #include <unistd.h>
 
 #include "bigraph.h"
@@ -33,6 +34,10 @@ int main(int argc, char **argv){
   case 1:
     {
       string side = g.get_query_side(query);
+      
+      //debug
+      cout << query << ":" << side << endl;
+
       BiGraph g_sub = g.generate_sub_graph(query, depth, side);
       g_sub.set_prob();
       if(entropy == 1){
@@ -42,6 +47,7 @@ int main(int argc, char **argv){
       g_sub.cohits_set_parameter(param_u, param_v);
       g_sub.cohits_propagation(iteration);
       g_sub.cohits_output(output_filename, size);
+      break;
     }
   case 2:
     {
@@ -54,6 +60,7 @@ int main(int argc, char **argv){
       g_sub.set_hitting_prob();
       g_sub.hitting_random_walk(query, iteration);
       g_sub.hitting_output(output_filename, size);
+      break;
     }
   }
 }

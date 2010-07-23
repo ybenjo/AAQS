@@ -1,9 +1,5 @@
 #include "bigraph.h"
 void BiGraph::set_edge(const id_type& n_u, const id_type& n_v, const uint& w){
-//   if (n_u == n_v){
-//     exit(EXIT_FAILURE);
-//   }
-
   nodes_u_[n_u].insert(n_v);
   nodes_v_[n_v].insert(n_u);
   raw_weight_[key(n_u, n_v)] = w;
@@ -26,6 +22,7 @@ void BiGraph::_set_prob(const each_node_hash& h){
 }
 
 void BiGraph::set_prob(){
+  cout << "set_prob" << endl;
   _set_prob(nodes_u_);
   _set_prob(nodes_v_);
 }
@@ -155,12 +152,10 @@ void BiGraph::read_file(const char *filename){
   ifs.open(filename, ios::in);
 
   while(getline(ifs, line)){
-    ret = split(line,",");
-    cout << line << endl;
+    ret = split(line,"\t");
     string u = ret.at(0);
     string v = ret.at(1);
     uint w = atoi(ret.at(2).c_str());
-    cout << u << "-"  << v << ":" << w  << endl;
     set_edge(u, v, w);
   }
   ifs.close();

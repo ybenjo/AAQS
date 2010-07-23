@@ -1,6 +1,7 @@
 #include "bigraph.h"
 
 void BiGraph::set_hitting_prob(){
+  cout << "set_hitting_prob" << endl;
   each_node_hash::iterator i;
   for(i = nodes_u_.begin();i != nodes_u_.end();++i){
     id_type from = i->first;
@@ -44,12 +45,14 @@ void BiGraph::hitting_one_random_walk(const id_type& query){
 }
 
 void BiGraph::hitting_random_walk(const id_type& query, const uint& count){
+  cout << "hitting_random_walk" << endl;
   for(uint i = 0;i < count;++i){
     hitting_one_random_walk(query);
   }
 }
 
 void BiGraph::hitting_output(const char *filename, const int& limit){
+  cout << "hitting_output" << endl;
   std::ofstream ofs;
   multimap<double, id_type> output;
 

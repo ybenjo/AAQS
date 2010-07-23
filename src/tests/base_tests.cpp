@@ -177,4 +177,9 @@ TEST_F(TestBiGraph, Check_get_query_side){
   EXPECT_EQ("v", g.get_query_side("2"));
   EXPECT_EQ("v", g.get_query_side("3"));
   EXPECT_EQ("v", g.get_query_side("4"));
+  BiGraph g_sub = g.generate_sub_graph("1", 10, "u");
+  EXPECT_EQ("u", g_sub.get_query_side("1"));
+  EXPECT_EQ("v", g_sub.get_query_side("2"));
+  EXPECT_EQ("v", g_sub.get_query_side("3"));
+  EXPECT_EQ("v", g_sub.get_query_side("4"));
 }

@@ -11,11 +11,13 @@ void BiGraph::_cohits_set_init_score(const each_node_hash& nodes, d_hash& score1
 }
 
 void BiGraph::cohits_set_init_score(){
+  cout << "cohits_set_init_score" << endl;
   _cohits_set_init_score(nodes_u_, _init_score_u_, score_u_);
   _cohits_set_init_score(nodes_v_, _init_score_v_, score_v_);
 }
 
 void BiGraph::cohits_set_parameter(const double& u, const double& v){
+  cout << "cohits_set_parameter" << endl;
   cohits_lambda_u_ = u;
   cohits_lambda_v_ = v;
 }
@@ -66,12 +68,14 @@ void BiGraph::cohits_one_propagate(){
 }
 
 void BiGraph::cohits_propagation(const uint& count){
+  cout << "cohits_propagation" << endl;
   for(uint i = 0;i < count;++i){
     cohits_one_propagate();
   }
 }
 
 void BiGraph::cohits_output(const char *filename, const int& limit){
+  cout << "cohits_output" << endl;
   std::ofstream ofs;
   multimap<double, id_type> output_u;
   multimap<double, id_type> output_v;
