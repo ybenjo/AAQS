@@ -148,19 +148,20 @@ void BiGraph::_one_side_depth_search(list& now, list& checked, set<key>& sub_lis
 
 
 void BiGraph::read_file(const char *filename){
+  cout << "Reading " << filename << endl;
   ifstream ifs;
   vector<string> ret;
-  char line[255];
+  string line;
   ifs.open(filename, ios::in);
-  while(!ifs.eof()){
-    ifs.getline(line,sizeof(line));
-    if(strlen(line) > 1){
-      ret = split(line,",");
-      string u = ret.at(0);
-      string v = ret.at(1);
-      uint w = atoi(ret.at(2).c_str());
-      set_edge(u, v, w);
-    }
+
+  while(getline(ifs, line)){
+    ret = split(line,",");
+    cout << line << endl;
+    string u = ret.at(0);
+    string v = ret.at(1);
+    uint w = atoi(ret.at(2).c_str());
+    cout << u << "-"  << v << ":" << w  << endl;
+    set_edge(u, v, w);
   }
   ifs.close();
 }

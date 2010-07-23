@@ -3,12 +3,12 @@
 #include "bigraph.h"
 
 int main(int argc, char **argv){
+  cout << "Start" << endl;
   char *input_filename, *output_filename;
   int result, iteration, depth, mode, size, entropy;
   double param_u, param_v;
   string query;
-  
-  while(1){ 
+  while(1){
     result = getopt(argc, argv, "i:o:m:d:t:u:v:s:e:q:");
     if(result == -1) break;
     
