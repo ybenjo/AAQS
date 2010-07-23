@@ -28,17 +28,18 @@ int main(int argc, char **argv){
     optarg = NULL; 
   }
 
-  BiGraph g;
-  g.read_file(input_filename);
+  BiGraph* g = new BiGraph;
+  g->read_file(input_filename);
   switch(mode){
   case 1:
     {
-      string side = g.get_query_side(query);
+      string side = g->get_query_side(query);
       
       //debug
       cout << query << ":" << side << endl;
 
-      BiGraph g_sub = g.generate_sub_graph(query, depth, side);
+      BiGraph g_sub = g->generate_sub_graph(query, depth, side);
+      delete g;
       g_sub.set_prob();
       if(entropy == 1){
 	g_sub.set_entropy();
@@ -51,15 +52,15 @@ int main(int argc, char **argv){
     }
   case 2:
     {
-      string side = g.get_query_side(query);
-      BiGraph g_sub = g.generate_sub_graph(query, depth, side);
+      string side = g->get_query_side(query);
+      BiGraph g_sub = g->generate_sub_graph(query, depth, side);
+      delete g;
       g_sub.set_prob();
       if(entropy == 1){
 	g_sub.set_entropy();
       }
       g_sub.set_hitting_prob();
       g_sub.hitting_random_walk(query, iteration);
-      g_sub.hitting_output(output_filename, size);
       break;
     }
   }
