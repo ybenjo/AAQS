@@ -57,6 +57,7 @@ int main(int argc, char **argv){
       }
       g_sub.set_hitting_prob();
       g_sub.hitting_random_walk(query, iteration);
+      g_sub.hitting_output(output_filename, size);
       break;
     }
   }
