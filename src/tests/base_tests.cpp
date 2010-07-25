@@ -8,7 +8,6 @@
 TEST(bigraph, Check_get_adj_size_exist){
   BiGraph g;
   g.set_edge("1", "2", 10);
-  g.set_edge("1", "2", 20);
   g.set_edge("1", "3", 10);
   g.set_edge("1", "4", 10);
   g.set_edge("5", "6", 10);

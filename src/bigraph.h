@@ -21,7 +21,7 @@ using namespace std::tr1;
 typedef unsigned int uint;
 typedef string id_type;
 typedef pair<id_type, id_type> key;
-typedef unordered_set<id_type> list;
+typedef vector<id_type> list;
 typedef unordered_map<id_type, double> d_hash;
 typedef unordered_map<id_type, list> each_node_hash;
 

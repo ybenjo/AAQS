@@ -1,7 +1,7 @@
 #include "bigraph.h"
 void BiGraph::set_edge(const id_type& n_u, const id_type& n_v, const uint& w){
-  nodes_u_[n_u].insert(n_v);
-  nodes_v_[n_v].insert(n_u);
+  nodes_u_[n_u].push_back(n_v);
+  nodes_v_[n_v].push_back(n_u);
   raw_weight_[key(n_u, n_v)] = w;
 }
 
@@ -87,7 +87,7 @@ BiGraph BiGraph::generate_sub_graph(const id_type& from, const int& depth, const
   if(side == "v"){
     ++lim;
   }
-  now.insert(from);
+  now.push_back(from);
   
   for(int count = 0;count < lim;++count){
     if(count % 2 == 0){
@@ -120,7 +120,8 @@ void BiGraph::_one_side_depth_search(list& now, list& checked, set<key>& sub_lis
   }
 
   for(list::iterator x = now.begin();x != now.end();++x){
-    if(checked.find(*x) == checked.end()){
+    list::iterator flag = find(checked.begin(), checked.end(), *x);
+    if(flag == checked.end()){
       list connected = side_hash[*x];
       if(connected.size() != 0){
 	for(list::iterator y = connected.begin();y != connected.end();++y){
@@ -129,18 +130,18 @@ void BiGraph::_one_side_depth_search(list& now, list& checked, set<key>& sub_lis
 	  }else{
 	    sub_list.insert(key(*y, *x));
 	  }
-	  next.insert(*y);
+	  next.push_back(*y);
 	}
-	checked.insert(*x);
+	checked.push_back(*x);
       }else{
 	//開始地点がV側だった場合nextに追加
-	next.insert(*x);
+	next.push_back(*x);
       }
     }
   }
   now.clear();
   for(list::iterator x = next.begin(); x != next.end(); ++x){
-    now.insert(*x);
+    now.push_back(*x);
   }
 }
 
