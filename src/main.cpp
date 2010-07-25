@@ -7,10 +7,10 @@ int main(int argc, char **argv){
   cout << "Start" << endl;
   char *input_filename, *output_filename;
   int result, iteration, depth, mode, size, entropy;
-  double param_u, param_v;
+  double param_u, param_v, damping;
   string query;
   while(1){
-    result = getopt(argc, argv, "i:o:m:d:t:u:v:s:e:q:");
+    result = getopt(argc, argv, "i:o:m:d:t:u:v:s:e:q:c:");
     if(result == -1) break;
     
     switch(result){
@@ -24,6 +24,7 @@ int main(int argc, char **argv){
     case 's' : size = atoi(optarg); break;
     case 'e' : entropy = atoi(optarg); break;
     case 'q' : query = string(optarg); break;
+    case 'c' : damping = atof(optarg); break;
     }
     optarg = NULL; 
   }
@@ -43,7 +44,7 @@ int main(int argc, char **argv){
       g_sub.cohits_set_init_score();
       g_sub.cohits_set_parameter(param_u, param_v);
       g_sub.cohits_propagation(iteration);
-      g_sub.cohits_output(output_filename, size);
+      g_sub.output_double_score(output_filename, size);
       break;
     }
   case 2:
@@ -58,6 +59,20 @@ int main(int argc, char **argv){
       g_sub.set_hitting_prob();
       g_sub.hitting_random_walk(query, iteration);
       g_sub.hitting_output(output_filename, size);
+      break;
+    }
+  case 3:
+    {
+      string side = g->get_query_side(query);
+      BiGraph g_sub = g->generate_sub_graph(query, depth, side);
+      delete g;
+      g_sub.set_prob();
+      if(entropy == 1){
+	g_sub.set_entropy();
+      }
+      g_sub.rwr_set_init(query, damping);
+      g_sub.rwr_random_walk(query, iteration);
+      g_sub.output_double_score(output_filename, size);
       break;
     }
   }

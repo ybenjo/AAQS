@@ -41,6 +41,7 @@ public:
   BiGraph generate_sub_graph(const id_type& from, const int& depth, const string& side);
 
   void read_file(const char *filename);
+  void output_double_score(const char *filename, const int& limit);
   vector<string> split(string s, string c);
 
   //CoHITS
@@ -49,7 +50,6 @@ public:
   double cohits_calc_validation(const id_type& i);
   void cohits_one_propagate();
   void cohits_propagation(const uint& count);
-  void cohits_output(const char *filename, const int& limit);
 
   //hitting time
   void set_hitting_prob();
@@ -59,6 +59,12 @@ public:
   void hitting_random_walk(const id_type& query, const uint& count);
   void hitting_output(const char *filename, const int& limit);
 
+  //RWR
+  void rwr_set_init(const id_type& query, const double& damping);
+  void rwr_one_random_walk(const id_type& query);
+  void rwr_random_walk(const id_type& query, const uint& count);
+  double rwr_get_score(const id_type& query);
+  
 protected:
   void _set_prob(const each_node_hash& h);
   void _one_side_depth_search(list& now, list& checked, set<key>& sub_list, const string& side);
@@ -80,7 +86,9 @@ protected:
   //hitting time
   map<key, double> hitting_prob_;
   d_hash hitting_score_;
-  
+
+  //RWR
+  double rwr_damping_;
 };
 
 #endif //__class__BiGraph__

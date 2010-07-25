@@ -1,3 +1,4 @@
+#/usr/bin/env ruby
 require "yaml"
 require "optparse"
 
@@ -11,6 +12,7 @@ option["-s"] = config_yaml["SIZE"]
 option["-e"] = config_yaml["ENTROPY"] ? 1 : 0
 option["-u"] = config_yaml["LAMBDA_U"]
 option["-v"] = config_yaml["LAMBDA_V"]
+option["-c"] = config_yaml["DAMPING"]
 
 OptionParser.new {|opt|
   opt.on('-i [OPTION]') {|v| option["-i"] = v}
@@ -26,6 +28,7 @@ OptionParser.new {|opt|
     query = v.split(" ").sort.join(" ")
     option["-q"] = "\"#{query}\""
   }
+  opt.on('-c [OPTION]') {|v| option["-c"] = v.to_f}
   opt.parse!(ARGV)
 }
 
@@ -33,5 +36,5 @@ dir, fname = File::split(option["-i"])
 option["-o"] = "#{dir}/result_#{fname.gsub(/\.txt/,"")}_#{option["-q"]}.txt" if !option.include?("-o")
 command = "./main #{option.to_a.join(" ")}"
 puts command
-`#{command}`
+system command
 

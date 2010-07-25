@@ -73,37 +73,3 @@ void BiGraph::cohits_propagation(const uint& count){
     cohits_one_propagate();
   }
 }
-
-void BiGraph::cohits_output(const char *filename, const int& limit){
-  cout << "cohits_output" << endl;
-  std::ofstream ofs;
-  multimap<double, id_type> output_u;
-  multimap<double, id_type> output_v;
-
-  for(d_hash::iterator i = score_u_.begin();i != score_u_.end();++i){
-    output_u.insert(make_pair(i->second, i->first));
-  }
-
-  for(d_hash::iterator i = score_v_.begin();i != score_v_.end();++i){
-    output_v.insert(make_pair(i->second, i->first));
-  }
-  
-  ofs.open(filename);
-  ofs << "U' score" << endl;
-  multimap<double, id_type>::reverse_iterator i;
-  int count = 1;
-  for(i = output_u.rbegin();i != output_u.rend();++i){
-    if(count > limit) break;
-    ofs << i->second << "," << i->first << endl;
-    ++count;
-  }
-
-  ofs << "V' score" << endl;
-  count = 1;
-  for(i = output_v.rbegin();i != output_v.rend();++i){
-    if(count > limit) break;
-    ofs << i->second << "," << i->first << endl;
-    ++count;
-  }
-  ofs.close();
-}

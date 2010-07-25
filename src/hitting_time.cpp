@@ -33,10 +33,9 @@ void BiGraph::hitting_one_random_walk(const id_type& query){
     double local_score = 1.0;
     for(j = nodes_u_.begin();j != nodes_u_.end();++j){
       id_type to = j->first;
-      if(query != to){
-	local_score += get_hitting_prob(from, to) * hitting_score_[to];
-      }
+      local_score += get_hitting_prob(from, to) * hitting_score_[to];
     }
+    local_score -= get_hitting_prob(from, query) * hitting_score_[query];
     h_t_1[from] = local_score;
   }
 

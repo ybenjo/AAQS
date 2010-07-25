@@ -2,6 +2,7 @@
 #用いるアルゴリズムの選択。-mを優先
 #1 -> CoHITS
 #2 -> hitting time
+#3 -> RWR
 MODE: 1
 
 ###共通パラメータ
@@ -19,3 +20,7 @@ ENTROPY: false
 #伝播パラメータ。それぞれ-u, -vを優先
 LAMBDA_U: 0.5
 LAMBDA_V: 0.5
+
+##RWR
+#ダンピングファクター
+DAMPING: 0.5
