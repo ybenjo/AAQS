@@ -22,20 +22,22 @@ tr1::unordered\_mapに依存しています。
 	$make main
 	$ruby ./run.rb
 いくつかの引数を指定することができます。
-- -i:入力ファイルの指定。省略不可。
-- -o:出力ファイルの指定。省略時は入力ファイルと同フォルダに出力。
-- -m:用いるアルゴリズムの選択。省略時は1。それぞれ
+
+* -i:入力ファイルの指定。省略不可。
+* -o:出力ファイルの指定。省略時は入力ファイルと同フォルダに出力。
+* -q:対象とするクエリ。省略不可。
+* -m:用いるアルゴリズムの選択。省略時は1。それぞれ
 1 => Random walk With Restart(RWR)
 2 => Entropy biased models
 3 => Generalized Co-HITS
 4 => hitting timeに対応。
-- -t:random walkの繰り返し回数。省略時は5
-- -d:サブグラフを作る際の深さ。省略時は4
-- -s:出力する際の件数。省略時は10
-- -e:CF-IQFに基づいて遷移確率を上書きするか。省略時はfalse。アルゴリズムが2の場合はtrueに。
-- -u:Generalized Co-HITSで用いる伝播パラメータ。省略時は0.5
-- -v:Generalized Co-HITSで用いる伝播パラメータ。省略時は0.5
-- -c:RWR、Entropy biased modelsで用いるダンピングファクター。省略時は0.5
+* -t:random walkの繰り返し回数。省略時は5
+* -d:サブグラフを作る際の深さ。省略時は4
+* -s:出力する際の件数。省略時は10
+* -e:CF-IQFに基づいて遷移確率を上書きするか。省略時はfalse。アルゴリズムが2の場合はtrueに。
+* -u:Generalized Co-HITSで用いる伝播パラメータ。省略時は0.5
+* -v:Generalized Co-HITSで用いる伝播パラメータ。省略時は0.5
+* -c:RWR、Entropy biased modelsで用いるダンピングファクター。省略時は0.5
 
 ## ファイルフォーマット
 The delimiter is Tab.For example:

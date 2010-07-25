@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #/usr/bin/env ruby
 require "yaml"
 require "optparse"
@@ -31,6 +32,17 @@ OptionParser.new {|opt|
   opt.on('-c [OPTION]') {|v| option["-c"] = v.to_f}
   opt.parse!(ARGV)
 }
+
+if !option.include?("-i")
+  puts "入力ファイルを指定してください"
+  exit()
+elsif !File.exist?(option["-i"])
+  puts "入力ファイル(#{option["-i"]})が見つかりません"
+  exit()
+elsif !option.include?("-q")
+  puts "クエリを指定してください"
+  exit()
+end
 
 dir, fname = File::split(option["-i"])
 option["-o"] = "#{dir}/result_#{fname.gsub(/\.txt/,"")}_#{option["-q"]}.txt" if !option.include?("-o")
