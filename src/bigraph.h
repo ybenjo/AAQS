@@ -13,7 +13,6 @@
 #include <fstream>
 #include <string.h>
 #include <tr1/unordered_map>
-#include <tr1/unordered_set>
 
 using namespace std;
 using namespace std::tr1;

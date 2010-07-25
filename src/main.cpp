@@ -33,6 +33,36 @@ int main(int argc, char **argv){
   g->read_file(input_filename);
   switch(mode){
   case 1:
+    //random walk with restart
+    {
+      string side = g->get_query_side(query);
+      BiGraph g_sub = g->generate_sub_graph(query, depth, side);
+      delete g;
+      g_sub.set_prob();
+      if(entropy == 1){
+	g_sub.set_entropy();
+      }
+      g_sub.rwr_set_init(query, damping);
+      g_sub.rwr_random_walk(query, iteration);
+      g_sub.output_double_score(output_filename, size);
+      break;
+    }
+  case 2:
+    //entropy biased model
+    {
+      string side = g->get_query_side(query);
+      BiGraph g_sub = g->generate_sub_graph(query, depth, side);
+      delete g;
+      g_sub.set_prob();
+      g_sub.set_entropy();
+      g_sub.rwr_set_init(query, damping);
+      g_sub.rwr_random_walk(query, iteration);
+      g_sub.output_double_score(output_filename, size);
+      break;
+    }
+    
+  case 3:
+    //generalized Co-HITS
     {
       string side = g->get_query_side(query);
       BiGraph g_sub = g->generate_sub_graph(query, depth, side);
@@ -47,7 +77,8 @@ int main(int argc, char **argv){
       g_sub.output_double_score(output_filename, size);
       break;
     }
-  case 2:
+  case 4:
+    //hitting time
     {
       string side = g->get_query_side(query);
       BiGraph g_sub = g->generate_sub_graph(query, depth, side);
@@ -59,20 +90,6 @@ int main(int argc, char **argv){
       g_sub.set_hitting_prob();
       g_sub.hitting_random_walk(query, iteration);
       g_sub.hitting_output(output_filename, size);
-      break;
-    }
-  case 3:
-    {
-      string side = g->get_query_side(query);
-      BiGraph g_sub = g->generate_sub_graph(query, depth, side);
-      delete g;
-      g_sub.set_prob();
-      if(entropy == 1){
-	g_sub.set_entropy();
-      }
-      g_sub.rwr_set_init(query, damping);
-      g_sub.rwr_random_walk(query, iteration);
-      g_sub.output_double_score(output_filename, size);
       break;
     }
   }
