@@ -18,19 +18,25 @@ Proceeding of the 17th ACM conference on Information and knowledge mining - CIKM
 ## 使い方
 
 tr1::unordered\_mapに依存しています。
+
 また、テストにはgoogletestを用いています。
 	$make main
 	$ruby ./run.rb
-いくつかの引数を指定することができます。
+実行時にいくつかの引数を指定することができます。
+省略時の初期値はconfig.yamlに記載しているので、そのまま書き換える事も可能です。
 
 * -i:入力ファイルの指定。省略不可。
 * -o:出力ファイルの指定。省略時は入力ファイルと同フォルダに出力。
 * -q:対象とするクエリ。省略不可。
 * -m:用いるアルゴリズムの選択。省略時は1。それぞれ
 1 => Random walk With Restart(RWR)
+
 2 => Entropy biased models
+
 3 => Generalized Co-HITS
-4 => hitting timeに対応。
+
+4 => hitting timeに対応にしています。
+
 * -t:random walkの繰り返し回数。省略時は5
 * -d:サブグラフを作る際の深さ。省略時は4
 * -s:出力する際の件数。省略時は10
@@ -40,8 +46,15 @@ tr1::unordered\_mapに依存しています。
 * -c:RWR、Entropy biased modelsで用いるダンピングファクター。省略時は0.5
 
 ## ファイルフォーマット
-The delimiter is Tab.For example:
-query_1\turl_1\t10
-query_1\turl_2\t3
-...
+
+入力ファイルのフォーマットはタブ区切りで以下のようなものになります。
+	query	url	count(整数)
+例として
+	google	www.google.com	100
+	google	www.gmail.com	45
+	google mail	www.gmail.com	45
+	google メール	www.gmail.com	53
+と言った形になります。
+
+## 今後
 
