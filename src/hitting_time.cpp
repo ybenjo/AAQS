@@ -30,13 +30,14 @@ void BiGraph::hitting_one_random_walk(const id_type& query){
   
   for(i = nodes_u_.begin();i != nodes_u_.end();++i){
     id_type from = i->first;
-    h_t_1[from] += 1;
+    double local_score = 1.0;
     for(j = nodes_u_.begin();j != nodes_u_.end();++j){
       id_type to = j->first;
       if(query != to){
-	h_t_1[from] += get_hitting_prob(from, to) * hitting_score_[to];
+	local_score += get_hitting_prob(from, to) * hitting_score_[to];
       }
     }
+    h_t_1[from] = local_score;
   }
 
   for(d_hash::iterator t = h_t_1.begin();t != h_t_1.end();++t){
