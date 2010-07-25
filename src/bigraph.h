@@ -13,16 +13,16 @@
 #include <fstream>
 #include <string.h>
 #include <tr1/unordered_map>
+#include <tr1/unordered_set>
 
 using namespace std;
 using namespace std::tr1;
 
-//typedef unsigned int uint;
-typedef unsigned short int uint;
+typedef unsigned int uint;
 typedef string id_type;
 typedef pair<id_type, id_type> key;
-typedef set<id_type> list;
-typedef map<id_type, double> d_hash;
+typedef unordered_set<id_type> list;
+typedef unordered_map<id_type, double> d_hash;
 typedef unordered_map<id_type, list> each_node_hash;
 
 class BiGraph{
