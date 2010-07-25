@@ -30,8 +30,11 @@ tr1::unordered\_mapに依存しています。
 * -q:対象とするクエリ。省略不可。
 * -m:用いるアルゴリズムの選択。省略時は1。それぞれ
 	1 => Random walk With Restart(RWR)
+	
 	2 => Entropy biased models
+	
 	3 => Generalized Co-HITS
+	
 	4 => hitting timeに対応にしています。
 * -t:random walkの繰り返し回数。省略時は5
 * -d:サブグラフを作る際の深さ。省略時は4
@@ -51,6 +54,3 @@ tr1::unordered\_mapに依存しています。
 	google mail	www.gmail.com	45
 	google メール	www.gmail.com	53
 といった形になります。
-
-## 今後
-
