@@ -29,14 +29,10 @@ tr1::unordered\_mapに依存しています。
 * -o:出力ファイルの指定。省略時は入力ファイルと同フォルダに出力。
 * -q:対象とするクエリ。省略不可。
 * -m:用いるアルゴリズムの選択。省略時は1。それぞれ
-1 => Random walk With Restart(RWR)
-
-2 => Entropy biased models
-
-3 => Generalized Co-HITS
-
-4 => hitting timeに対応にしています。
-
+	1 => Random walk With Restart(RWR)
+	2 => Entropy biased models
+	3 => Generalized Co-HITS
+	4 => hitting timeに対応にしています。
 * -t:random walkの繰り返し回数。省略時は5
 * -d:サブグラフを作る際の深さ。省略時は4
 * -s:出力する際の件数。省略時は10
@@ -54,7 +50,7 @@ tr1::unordered\_mapに依存しています。
 	google	www.gmail.com	45
 	google mail	www.gmail.com	45
 	google メール	www.gmail.com	53
-と言った形になります。
+といった形になります。
 
 ## 今後
 
