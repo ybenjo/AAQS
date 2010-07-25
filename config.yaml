@@ -1,8 +1,10 @@
 ###
 #用いるアルゴリズムの選択。-mを優先
-#1 -> CoHITS
-#2 -> hitting time
-#3 -> RWR
+#1 -> Random walk With Restart(RWR)
+#2 -> Entropy biased models
+#3 -> Generalized Co-HITS
+#4 -> hitting time
+
 MODE: 1
 
 ###共通パラメータ
@@ -12,15 +14,15 @@ ITERATION: 5
 DEPTH: 4
 #出力する際の件数。-sを優先
 SIZE: 10
-#entropy biased modelに基づいて遷移確率を上書きするか。-eを優先
+#CF-IQFに基づいて遷移確率を上書きするか。-eを優先(MODEが2の場合強制的にtrue)
 ENTROPY: false
 
 ###個別パラメータ
-##CoHITS
+##Generalized CoHITS
 #伝播パラメータ。それぞれ-u, -vを優先
 LAMBDA_U: 0.5
 LAMBDA_V: 0.5
 
-##RWR
+##
 #ダンピングファクター
 DAMPING: 0.5
