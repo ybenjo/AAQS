@@ -26,14 +26,14 @@ TEST_F(TestHittingBiGraph, check_set_hitting_prob){
 }
 
 TEST_F(TestHittingBiGraph, check_hitting_one_random_walk){
-  g.set_prob();
-  g.set_hitting_prob();
-  cout << "1st random walk" << endl;
-  g.hitting_one_random_walk("a");
-  EXPECT_DOUBLE_EQ(1, g.hitting_get_hitting_score("a"));
-  EXPECT_DOUBLE_EQ(1, g.hitting_get_hitting_score("b"));
-  cout << "2nd random walk" << endl;
-  g.hitting_one_random_walk("a");
-  EXPECT_DOUBLE_EQ(1 + 1/6.0, g.hitting_get_hitting_score("a"));
-  EXPECT_DOUBLE_EQ(3/4.0 + 1, g.hitting_get_hitting_score("b"));
+//   g.set_prob();
+//   g.set_hitting_prob();
+//   cout << "1st random walk" << endl;
+//   g.hitting_one_random_walk("a");
+//   EXPECT_DOUBLE_EQ(1, g.hitting_get_hitting_score("a"));
+//   EXPECT_DOUBLE_EQ(1, g.hitting_get_hitting_score("b"));
+//   cout << "2nd random walk" << endl;
+//   g.hitting_one_random_walk("a");
+//   EXPECT_DOUBLE_EQ(1 + 1/6.0, g.hitting_get_hitting_score("a"));
+//   EXPECT_DOUBLE_EQ(3/4.0 + 1, g.hitting_get_hitting_score("b"));
 }
